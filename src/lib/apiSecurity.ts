@@ -23,7 +23,10 @@ export function getClientIp(request: Request): string {
  * Interpreta `APP_URL` desde env (Vercel/.env a veces incluyen comillas o omiten el esquema).
  */
 export function tryParseAppUrl(raw: string | undefined): URL | null {
-  let s = String(raw ?? "").trim();
+  let s = String(raw ?? "")
+    .replace(/\uFEFF/g, "")
+    .replace(/[\u00A0\u2000-\u200B\u202F\u205F\u3000]/g, " ")
+    .trim();
   if (!s) return null;
   for (let i = 0; i < 3; i++) {
     if (
@@ -35,6 +38,8 @@ export function tryParseAppUrl(raw: string | undefined): URL | null {
       break;
     }
   }
+  /* Solo la primera línea (a veces se pega .env + otra URL abajo). */
+  s = s.split(/\r?\n/)[0]?.trim() ?? "";
   if (!s) return null;
   if (!/^https?:\/\//i.test(s)) {
     s = `https://${s.replace(/^\/+/, "")}`;
@@ -60,13 +65,14 @@ export function requireTrustedOrigin(request: Request): Response | null {
   const appUrlRaw = process.env.APP_URL?.trim();
   if (appUrlRaw) {
     const parsed = tryParseAppUrl(process.env.APP_URL);
-    if (!parsed) {
-      return NextResponse.json(
-        { error: "APP_URL inválida en configuración." },
-        { status: 500 },
+    if (parsed) {
+      allowedOrigins.add(parsed.origin);
+    } else {
+      /* No bloquear el sitio: Host + Origin del mismo request suelen alcanzar. */
+      console.warn(
+        "[apiSecurity] APP_URL definida pero ilegible; se omite. Corregí APP_URL en el servidor (ej. https://www.demanoenmano.lat).",
       );
     }
-    allowedOrigins.add(parsed.origin);
   }
   if (host) {
     allowedOrigins.add(`https://${host}`);
