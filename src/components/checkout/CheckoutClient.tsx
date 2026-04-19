@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandName, textWithBrandItalic } from "@/components/branding/BrandName";
 import { hasDeliveryProfile, loadDeliveryProfile } from "@/lib/deliveryProfile";
 import { formatColones } from "@/lib/formatColones";
 import {
@@ -268,11 +269,15 @@ export function CheckoutClient() {
             <Shield className="size-5" strokeWidth={1.75} />
           </div>
           <div className="min-w-0 space-y-2 text-sm leading-relaxed text-zinc-400">
-            <p className="font-medium text-zinc-200">Retención segura en De Mano en Mano</p>
+            <p className="font-medium text-zinc-200">
+              {textWithBrandItalic("Retención segura en De Mano en Mano")}
+            </p>
             <p>
               El dinero de esta compra queda{" "}
-              <span className="text-zinc-200">retenido por De Mano en Mano</span> mientras el
-              vendedor prepara el envío.
+              <span className="text-zinc-200">
+                retenido por <BrandName />
+              </span>{" "}
+              mientras el vendedor prepara el envío.
             </p>
             <p>
               Cuando el vendedor registre la guía de Correos dentro de la app,
@@ -299,7 +304,8 @@ export function CheckoutClient() {
                 <strong className="font-medium text-zinc-200">
                   procesador de pagos
                 </strong>{" "}
-                que contrate la plataforma De Mano en Mano (pasarela certificada). Ahí elegís el medio:
+                que contrate la plataforma <BrandName /> (pasarela certificada). Ahí elegís el
+                medio:
                 por ejemplo{" "}
                 <strong className="font-medium text-zinc-200">
                   tarjeta de débito o crédito
@@ -321,8 +327,8 @@ export function CheckoutClient() {
                 <strong className="font-medium text-zinc-200">
                   no va directo al IBAN del vendedor
                 </strong>
-                : queda en custodia en De Mano en Mano hasta que el vendedor cargue la guía
-                de Correos en la app; ahí se libera al vendedor.
+                : queda en custodia en <BrandName /> hasta que el vendedor cargue la guía de
+                Correos en la app; ahí se libera al vendedor.
               </li>
               <li>
                 <span className="text-zinc-300">En esta demo</span> no hay banco ni
@@ -379,7 +385,9 @@ export function CheckoutClient() {
             <ul className="mt-3 list-disc space-y-2 pl-4 text-xs leading-relaxed text-zinc-400 marker:text-violet-electric/70">
               <li>
                 El monto queda en{" "}
-                <strong className="font-medium text-zinc-200">custodia en De Mano en Mano</strong>
+                <strong className="font-medium text-zinc-200">
+                  custodia en <BrandName />
+                </strong>
                 : no se transfiere de inmediato a una cuenta personal del
                 vendedor.
               </li>
@@ -388,7 +396,7 @@ export function CheckoutClient() {
                 <strong className="font-medium text-zinc-200">
                   Correos de Costa Rica
                 </strong>{" "}
-                dentro de De Mano en Mano, se libera el pago al vendedor.
+                dentro de <BrandName />, se libera el pago al vendedor.
               </li>
               <li>
                 El artículo deja de mostrarse como disponible, pero sigue asociado
@@ -414,15 +422,15 @@ export function CheckoutClient() {
             <p className="mt-2 text-[11px] leading-relaxed text-zinc-400">
               Vos como comprador{" "}
               <span className="text-zinc-200">no cargás IBAN</span> en el checkout:
-              solo pagás el total. El IBAN en colones es del vendedor; De Mano en Mano lo
-              validó cuando publicó el producto. Ahí se acredita el saldo neto cuando se registre
+              solo pagás el total. El IBAN en colones es del vendedor; <BrandName /> lo validó
+              cuando publicó el producto. Ahí se acredita el saldo neto cuando se registre
               la guía (según términos y plazos).
             </p>
           </div>
 
           {orderId ? (
             <p className="text-center text-[10px] text-zinc-600">
-              Referencia de pedido De Mano en Mano:{" "}
+              Referencia de pedido <BrandName />:{" "}
               <span className="font-mono text-zinc-500">{orderId}</span>
             </p>
           ) : null}

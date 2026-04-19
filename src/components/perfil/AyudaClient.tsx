@@ -1,5 +1,6 @@
 "use client";
 
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import Link from "next/link";
 import { PerfilSubLayout } from "./PerfilSubLayout";
 
@@ -45,7 +46,9 @@ export function AyudaClient() {
             className="rounded-2xl border border-white/[0.06] bg-obsidian-elevated/70 p-4 ring-1 ring-white/[0.04]"
           >
             <p className="text-sm font-semibold text-white">{item.q}</p>
-            <p className="mt-2 text-xs leading-relaxed text-zinc-400">{item.a}</p>
+            <p className="mt-2 text-xs leading-relaxed text-zinc-400">
+              {textWithBrandItalic(item.a)}
+            </p>
           </li>
         ))}
       </ul>

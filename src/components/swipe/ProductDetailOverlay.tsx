@@ -1,5 +1,6 @@
 "use client";
 
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
@@ -158,7 +159,7 @@ export function ProductDetailOverlay({
                   </p>
                   <p className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-neon-green/50 bg-neon-green/10 px-2.5 py-1 text-[11px] font-semibold text-neon-green shadow-[0_0_22px_-8px_rgba(57,255,20,0.95)]">
                     <BadgeCheck className="size-3.5" strokeWidth={2.2} aria-hidden />
-                    Vendedor verificado en De Mano en Mano
+                    {textWithBrandItalic("Vendedor verificado en De Mano en Mano")}
                   </p>
                 </div>
                 <button
@@ -194,7 +195,7 @@ export function ProductDetailOverlay({
                   href={buildCheckoutHrefFromSwipeProduct(product)}
                   className="flex w-full items-center justify-center rounded-2xl bg-neon-green py-3.5 text-sm font-semibold text-[#0d0d0d] shadow-[0_0_28px_-4px_rgba(57,255,20,0.45)] transition hover:brightness-110"
                 >
-                  Comprar con De Mano en Mano
+                  {textWithBrandItalic("Comprar con De Mano en Mano")}
                 </Link>
               )}
               {!isSold ? (

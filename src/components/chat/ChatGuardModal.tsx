@@ -1,5 +1,6 @@
 "use client";
 
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import { CHAT_MODAL_COPY, type ChatGuardEvent } from "@/lib/chatMessageGuard";
 import { AnimatePresence, motion } from "framer-motion";
 import { ShieldAlert } from "lucide-react";
@@ -68,10 +69,10 @@ export function ChatGuardModal({ open, onClose }: Props) {
                   id="chat-guard-title"
                   className="text-base font-semibold leading-snug text-violet-200"
                 >
-                  {copy.title}
+                  {textWithBrandItalic(copy.title)}
                 </h2>
                 <p className="mt-2 text-sm leading-relaxed text-zinc-300">
-                  {copy.body}
+                  {textWithBrandItalic(copy.body)}
                 </p>
               </div>
             </div>

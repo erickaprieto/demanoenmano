@@ -1,6 +1,7 @@
 "use client";
 
 import { AppLogo } from "@/components/branding/AppLogo";
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import { TermsScroll } from "@/components/legal/TermsScroll";
 import { getOrCreateDemoUserId } from "@/lib/demoUserId";
 import { markTermsAcceptedLocal } from "@/lib/legalProfile";
@@ -36,7 +37,7 @@ export function WelcomeTermsClient() {
   const submit = useCallback(async () => {
     setError(null);
     if (!canSubmit) {
-      setError("Debés marcar las tres casillas obligatorias para continuar.");
+      setError("Debés seleccionar las tres casillas obligatorias para continuar.");
       return;
     }
     setLoading(true);
@@ -70,8 +71,9 @@ export function WelcomeTermsClient() {
           Cuenta suspendida
         </h1>
         <p className="mt-4 text-sm leading-relaxed text-zinc-400">
-          Tu cuenta está bajo revisión permanente por incumplimientos reiterados
-          de las políticas de envío de De Mano en Mano (tercera infracción).
+          {textWithBrandItalic(
+            "Tu cuenta está bajo revisión permanente por incumplimientos reiterados de las políticas de envío de De Mano en Mano (tercera infracción).",
+          )}
         </p>
         <p className="mt-3 text-xs text-zinc-600">
           Los datos de registro asociados a este perfil quedan bloqueados según
@@ -105,7 +107,7 @@ export function WelcomeTermsClient() {
       <div className="mx-auto flex min-h-dvh max-w-md flex-col justify-center bg-obsidian px-5 py-10 text-center">
         <h1 className="text-xl font-semibold text-white">Ya aceptaste los términos</h1>
         <p className="mt-3 text-sm text-zinc-500">
-          Podés continuar usando De Mano en Mano en esta sesión.
+          {textWithBrandItalic("Podés continuar usando De Mano en Mano en esta sesión.")}
         </p>
         <button
           type="button"
@@ -127,21 +129,23 @@ export function WelcomeTermsClient() {
             onClick={() => router.push("/bienvenida")}
             className="text-xs font-medium text-zinc-500 transition hover:text-violet-electric"
           >
-            ← Volver a la bienvenida
+            ← Volver a Bienvenid@
           </button>
         </div>
       ) : null}
       <header className="mb-4 flex shrink-0 flex-col items-center text-center">
         <AppLogo size={80} priority className="drop-shadow-[0_0_20px_rgba(138,43,226,0.3)]" />
         <p className="mt-4 text-xs font-medium uppercase tracking-[0.2em] text-violet-electric">
-          Bienvenida
+          Bienvenid@
         </p>
         <h1 className="mt-1 text-2xl font-semibold tracking-tight text-white">
           Registro y términos
         </h1>
         <p className="mt-2 text-sm text-zinc-500">
-          Leé el texto completo y confirmá las tres declaraciones obligatorias
-          para usar De Mano en Mano.
+          Leé el texto completo y confirmá las tres declaraciones obligatorias para usar
+          &apos;
+          {textWithBrandItalic("De Mano en Mano")}
+          &apos;.
         </p>
       </header>
 
@@ -158,8 +162,9 @@ export function WelcomeTermsClient() {
             className="mt-0.5 size-4 shrink-0 rounded border-white/20 bg-obsidian text-violet-electric"
           />
           <span>
-            Acepto la custodia de fondos por De Mano en Mano (liberación al registrar la
-            guía de Correos en la app, según términos).
+            {textWithBrandItalic(
+              "Acepto la custodia de fondos por De Mano en Mano (liberación al registrar la guía de Correos en la app, según términos).",
+            )}
           </span>
         </label>
         <label className="flex cursor-pointer gap-3 text-sm text-zinc-200">
@@ -200,8 +205,9 @@ export function WelcomeTermsClient() {
       </button>
 
       <p className="mt-4 text-center text-[11px] leading-relaxed text-zinc-600">
-        Al continuar declarás haber leído los Términos y Condiciones de De Mano en Mano
-        Costa Rica. Después de ingresar podés abrir Ayuda desde el perfil.
+        {textWithBrandItalic(
+          "Al continuar declarás haber leído los Términos y Condiciones de De Mano en Mano Costa Rica.",
+        )}
       </p>
     </div>
   );

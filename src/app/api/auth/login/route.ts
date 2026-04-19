@@ -36,12 +36,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Credenciales inválidas." }, { status: 401 });
   }
   const approval = await getUserApprovalStatus(user.id);
-  if (approval?.status === "pending") {
-    return NextResponse.json(
-      { error: "Tu cuenta está pendiente de aprobación del administrador." },
-      { status: 403 },
-    );
-  }
   if (approval?.status === "rejected") {
     return NextResponse.json(
       {

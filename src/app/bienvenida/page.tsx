@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: "Bienvenida",
+  title: "Bienvenid@",
   description:
     "Onboarding De Mano en Mano: vendé, comprá con estilo y pagá seguro con el pago seguro de la plataforma.",
 };

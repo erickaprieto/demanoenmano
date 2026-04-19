@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandName } from "@/components/branding/BrandName";
 import Image from "next/image";
 import {
   ChevronRight,
@@ -212,7 +213,7 @@ export function ProfileScreen() {
           id={`${formId}-wallet-title`}
           className="text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-500"
         >
-          Saldo De Mano en Mano
+          Saldo <BrandName />
         </p>
         <p className="mt-2 font-mono text-3xl font-bold tabular-nums tracking-tight text-neon-green sm:text-4xl">
           ₡{formatColones(DEMO_SALDO)}

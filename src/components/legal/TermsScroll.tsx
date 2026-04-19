@@ -1,3 +1,4 @@
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import { LEGAL_TERMS_DE_MANO_EN_MANO_CR } from "@/content/legalTermsReVibeCr";
 
 export function TermsScroll() {
@@ -17,7 +18,7 @@ export function TermsScroll() {
           className="whitespace-pre-wrap font-sans text-[13px] leading-relaxed text-zinc-300"
           style={{ fontFamily: "var(--font-inter), ui-sans-serif, system-ui" }}
         >
-          {LEGAL_TERMS_DE_MANO_EN_MANO_CR}
+          {textWithBrandItalic(LEGAL_TERMS_DE_MANO_EN_MANO_CR)}
         </pre>
       </div>
     </section>

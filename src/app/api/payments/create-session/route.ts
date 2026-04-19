@@ -5,6 +5,7 @@ import {
   getClientIp,
   requireTrustedOrigin,
   rateLimitExceededResponse,
+  tryParseAppUrl,
 } from "@/lib/apiSecurity";
 import { SWIPE_PRODUCTS } from "@/data/swipeProducts";
 import { shippingColonesForTier } from "@/lib/checkoutShipping";
@@ -73,8 +74,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const appUrl = process.env.APP_URL?.trim();
-  const base = appUrl ? new URL(appUrl) : new URL(request.url);
+  const base = tryParseAppUrl(process.env.APP_URL) ?? new URL(request.url);
   const successUrl = `${base.origin}/checkout/pago-exito?orderId=${encodeURIComponent(body.orderId)}&source=cuanto`;
 
   const session = await createCuantoCheckoutSession({

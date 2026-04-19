@@ -1,5 +1,6 @@
 "use client";
 
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import { Star } from "lucide-react";
 import { PerfilSubLayout } from "./PerfilSubLayout";
 
@@ -31,8 +32,9 @@ export function ResenasClient() {
   return (
     <PerfilSubLayout title="Reseñas">
       <p className="mb-6 text-sm text-zinc-500">
-        Opiniones de quienes te compraron en De Mano en Mano (identidades resumidas por
-        privacidad).
+        {textWithBrandItalic(
+          "Opiniones de quienes te compraron en De Mano en Mano (identidades resumidas por privacidad).",
+        )}
       </p>
       <ul className="space-y-4">
         {reviews.map((r) => (

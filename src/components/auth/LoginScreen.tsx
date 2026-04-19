@@ -1,6 +1,7 @@
 "use client";
 
 import { AppLogo } from "@/components/branding/AppLogo";
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import { CyberTropicalShell } from "@/components/registro/CyberTropicalShell";
 import { signUpFieldClass } from "@/components/registro/signUpFieldStyles";
 import Link from "next/link";
@@ -51,7 +52,7 @@ export function LoginScreen() {
           Iniciar sesión
         </h1>
         <p className="mt-2 text-center text-sm text-zinc-500">
-          Entrá con tu cuenta real de De Mano en Mano.
+          {textWithBrandItalic("Logueate con tu cuenta de De Mano en Mano.")}
         </p>
 
         <form className="mt-10 flex flex-1 flex-col gap-5" onSubmit={submit} noValidate>

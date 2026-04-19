@@ -1,11 +1,11 @@
 "use client";
 
 import { AppLogo } from "@/components/branding/AppLogo";
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import { GradientBackdrop } from "@/components/ui/GradientBackdrop";
 import { Gem } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 /** Alineado con @theme — Verde Neón de marca */
 const NEON = "#33ff00";
@@ -163,12 +163,11 @@ const BENEFIT_CARDS = [
         <LockLeafIcon className="relative size-14 drop-shadow-[0_0_14px_rgba(51,255,0,0.4)]" />
       </div>
     ),
-    body: "Tu dinero protegido con el pago seguro De Mano en Mano. ¡Cero estafas!",
+    body: "Tu dinero protegido con el pago seguro 'De Mano en Mano'.",
   },
 ];
 
 export function WelcomeOpportunityScreen() {
-  const router = useRouter();
   const [slide, setSlide] = useState(0);
 
   useEffect(() => {
@@ -177,10 +176,6 @@ export function WelcomeOpportunityScreen() {
     }, CAROUSEL_MS);
     return () => window.clearInterval(id);
   }, []);
-
-  const goGuest = useCallback(() => {
-    router.push("/bienvenida/terminos");
-  }, [router]);
 
   return (
     <div
@@ -246,7 +241,7 @@ export function WelcomeOpportunityScreen() {
                         active ? "vibe-onboarding-carousel-text" : ""
                       }`}
                     >
-                      {card.body}
+                      {textWithBrandItalic(card.body)}
                     </p>
                   </div>
                 </article>
@@ -290,13 +285,6 @@ export function WelcomeOpportunityScreen() {
         >
           Ya tengo cuenta, Iniciar Sesión
         </Link>
-        <button
-          type="button"
-          onClick={() => goGuest()}
-          className="w-full pt-1 text-center text-[13px] font-medium text-white/55 transition hover:text-white/85"
-        >
-          O explora primero como invitado
-        </button>
       </footer>
     </div>
   );

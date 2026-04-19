@@ -2,6 +2,7 @@
 
 import { ChatGuardModal } from "@/components/chat/ChatGuardModal";
 import { useChat, type ChatMessage } from "@/context/ChatContext";
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import type { ChatBlockCategory } from "@/lib/chatMessageGuard";
 import { scanChatDraft } from "@/lib/chatMessageGuard";
 import { CHAT_SECURITY_NOTICE } from "@/lib/patternBlocker";
@@ -292,10 +293,12 @@ export function MessagesClient() {
               role="alert"
             >
               <p className="text-xs font-semibold leading-snug text-orange-100">
-                {draftHot ? draftHotLabel(draftHot) : "Contenido no permitido"}
+                {draftHot
+                  ? textWithBrandItalic(draftHotLabel(draftHot))
+                  : "Contenido no permitido"}
               </p>
               <p className="text-[11px] leading-relaxed text-violet-200/95">
-                {CHAT_SECURITY_NOTICE}
+                {textWithBrandItalic(CHAT_SECURITY_NOTICE)}
               </p>
             </div>
           ) : null}
@@ -347,8 +350,9 @@ export function MessagesClient() {
     <div className="flex flex-col gap-2">
       <ChatGuardModal open={guardEvent} onClose={clearGuardEvent} />
       <p className="text-sm text-zinc-500">
-        Abrí otra pestaña con De Mano en Mano para ver los mensajes aparecer al instante
-        (misma cuenta, demo local).
+        {textWithBrandItalic(
+          "Abrí otra pestaña con De Mano en Mano para ver los mensajes aparecer al instante (misma cuenta, demo local).",
+        )}
       </p>
       <ul className="mt-4 space-y-2">
         {threads.map((t) => (

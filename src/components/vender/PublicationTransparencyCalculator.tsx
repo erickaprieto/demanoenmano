@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandName } from "@/components/branding/BrandName";
 import { formatColones } from "@/lib/formatColones";
 import {
   CORREOS_SHIPPING_CRC,
@@ -74,7 +75,7 @@ export function PublicationTransparencyCalculator({
         </div>
         <div className="flex items-baseline justify-between gap-3">
           <dt className="text-zinc-500">
-            Comisión De Mano en Mano{" "}
+            Comisión <BrandName />{" "}
             <span className="text-[10px] font-normal text-zinc-600">
               (17% + ₡500)
             </span>
@@ -127,7 +128,9 @@ export function PublicationTransparencyCalculator({
           <li>
             El pago al vendedor se libera cuando registrás el número de guía de
             Correos de Costa Rica{" "}
-            <strong className="font-semibold text-zinc-100">dentro de De Mano en Mano</strong>
+            <strong className="font-semibold text-zinc-100">
+              dentro de <BrandName />
+            </strong>
             .
           </li>
           <li>

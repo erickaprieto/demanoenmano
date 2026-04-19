@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandName, textWithBrandItalic } from "@/components/branding/BrandName";
 import { CheckCircle2, Fingerprint, Lock, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -42,7 +43,9 @@ export function PagoExitoClient() {
             </li>
             {orderId ? (
               <li className="flex justify-between gap-3 border-b border-white/[0.06] pb-3">
-                <span className="text-zinc-500">Pedido De Mano en Mano</span>
+                <span className="text-zinc-500">
+                  Pedido <BrandName />
+                </span>
                 <span className="max-w-[55%] truncate font-mono text-zinc-200">
                   {orderId}
                 </span>
@@ -58,8 +61,9 @@ export function PagoExitoClient() {
             ) : (
               <li className="flex items-start gap-2 pt-1 text-zinc-500">
                 <Sparkles className="mt-0.5 size-3.5 shrink-0 text-violet-electric" />
-                Si Cuanto o el banco añaden parámetros en la URL al volver, los
-                podés ignorar: el pedido queda registrado en De Mano en Mano.
+                {textWithBrandItalic(
+                  "Si Cuanto o el banco añaden parámetros en la URL al volver, los podés ignorar: el pedido queda registrado en De Mano en Mano.",
+                )}
               </li>
             )}
           </ul>
@@ -68,12 +72,12 @@ export function PagoExitoClient() {
         <div className="rounded-2xl border border-[#8A2BE2]/30 bg-[#8A2BE2]/[0.07] p-4 ring-1 ring-[#8A2BE2]/15">
           <p className="flex items-center gap-2 text-xs font-semibold text-violet-100">
             <Lock className="size-4 text-[#39FF14]" strokeWidth={2} />
-            Pago seguro De Mano en Mano
+            {textWithBrandItalic("Pago seguro De Mano en Mano")}
           </p>
           <p className="mt-2 text-[11px] leading-relaxed text-zinc-400">
-            El cobro se procesó dentro de la app; no hubo redirección a un
-            checkout externo genérico. La custodia y liberación de fondos siguen
-            las reglas de De Mano en Mano.
+            {textWithBrandItalic(
+              "El cobro se procesó dentro de la app; no hubo redirección a un checkout externo genérico. La custodia y liberación de fondos siguen las reglas de De Mano en Mano.",
+            )}
           </p>
         </div>
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import Link from "next/link";
 import { PerfilSubLayout } from "./PerfilSubLayout";
 
@@ -25,8 +26,9 @@ export function AjustesClient() {
           <h2 className="text-sm font-semibold text-white">Privacidad en el chat</h2>
           <ul className="mt-3 list-inside list-disc space-y-2 text-xs leading-relaxed text-zinc-400">
             <li>
-              No compartas teléfonos ni correos en mensajes: usá el flujo de compra
-              y la guía de Correos dentro de De Mano en Mano.
+              {textWithBrandItalic(
+                "No compartas teléfonos ni correos en mensajes: usá el flujo de compra y la guía de Correos dentro de De Mano en Mano.",
+              )}
             </li>
             <li>
               El comprador no ve tu contacto personal; el vendedor tampoco ve el

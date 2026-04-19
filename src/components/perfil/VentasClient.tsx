@@ -1,5 +1,6 @@
 "use client";
 
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import { useCallback, useEffect, useId, useState } from "react";
 import { Copy } from "lucide-react";
 import { checkDeadline, formatDeadlineEsCR } from "@/lib/businessDays";
@@ -111,10 +112,9 @@ export function VentasClient({ embedded = false }: VentasClientProps) {
     <>
       {!embedded ? (
         <p className="mb-6 text-sm leading-relaxed text-zinc-500">
-          Cuando el comprador pague, verás su dirección para Correos. El plazo
-          de 3 días hábiles para registrar guía arranca desde la confirmación de
-          pago. Al guardar la guía en De Mano en Mano se libera el pago al vendedor según
-          las reglas de la plataforma.
+          {textWithBrandItalic(
+            "Cuando el comprador pague, verás su dirección para Correos. El plazo de 3 días hábiles para registrar guía arranca desde la confirmación de pago. Al guardar la guía en De Mano en Mano se libera el pago al vendedor según las reglas de la plataforma.",
+          )}
         </p>
       ) : null}
       <ul className="space-y-4">
@@ -181,8 +181,9 @@ export function VentasClient({ embedded = false }: VentasClientProps) {
               ) : o.status === "pendiente_envio" && isPaid ? (
                 <div className="mt-4 space-y-2">
                   <p className="text-[11px] leading-relaxed text-zinc-500">
-                    Cargá la guía acá cuando la tengas: es el paso que dispara la
-                    liberación del pago con el pago seguro De Mano en Mano.
+                    {textWithBrandItalic(
+                      "Cargá la guía acá cuando la tengas: es el paso que dispara la liberación del pago con el pago seguro De Mano en Mano.",
+                    )}
                   </p>
                   <button
                     type="button"

@@ -1,5 +1,6 @@
 "use client";
 
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import Image from "next/image";
 import {
   useCallback,
@@ -255,6 +256,7 @@ export function UploadProductForm() {
 
     const blockedTerm = findBlockedListingTerm(
       [titleTrim, descTrim, sellOtherText.trim()].filter(Boolean).join(" "),
+      sellCategory,
     );
     if (blockedTerm) {
       next.title =
@@ -680,7 +682,7 @@ export function UploadProductForm() {
               total al pagar.
             </p>
             <p className="text-[11px] leading-relaxed text-zinc-500">
-              En De Mano en Mano calculamos una{" "}
+              {textWithBrandItalic("En De Mano en Mano calculamos una ")}{" "}
               <span className="text-zinc-400">tarifa estimada de Correos de Costa
               Rica</span> según el rango elegido; en el checkout ese monto se
               muestra aparte y <span className="text-zinc-300">se suma al total</span>{" "}

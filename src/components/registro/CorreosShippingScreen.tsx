@@ -15,6 +15,11 @@ import {
   type DeliveryProfileV1,
 } from "@/lib/deliveryProfile";
 import { syncShippingFromDeliveryProfile } from "@/lib/vibeProfile";
+import {
+  clearSignupDocumentSetupToken,
+  readSignupDocumentSetupToken,
+} from "@/lib/signupDocumentSetupToken";
+import { buildSupportMailto } from "@/lib/supportContact";
 import { CyberTropicalShell } from "./CyberTropicalShell";
 import {
   selectChevronStyle,
@@ -51,6 +56,8 @@ export function CorreosShippingScreen() {
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
   const [attemptedSubmit, setAttemptedSubmit] = useState(false);
+  const [submitBusy, setSubmitBusy] = useState(false);
+  const [cedulaConflictOpen, setCedulaConflictOpen] = useState(false);
 
   useEffect(() => {
     if (!loadSignupDraft()) {
@@ -67,6 +74,27 @@ export function CorreosShippingScreen() {
     [cantonId],
   );
 
+  const supportMailHref = useMemo(() => {
+    const d = loadSignupDraft();
+    const emailLine = d?.email?.trim()
+      ? `Correo con el que intento registrarme: ${d.email.trim()}`
+      : "";
+    return buildSupportMailto({
+      subject: "Cédula ya asociada — soporte",
+      body: [
+        "Hola,",
+        "",
+        "Intenté registrarme y el sistema indica que mi número de cédula ya está asociado a una cuenta.",
+        "",
+        emailLine,
+        "",
+        "Gracias.",
+      ]
+        .filter((line) => line.length > 0)
+        .join("\n"),
+    });
+  }, [cedulaConflictOpen]);
+
   const idOk = useMemo(() => validId(idTipo, idNumero), [idTipo, idNumero]);
   const direccionOk = direccion.trim().length >= 8;
   const cedulaInvalid = idNumero.length > 0 && !idOk;
@@ -75,7 +103,7 @@ export function CorreosShippingScreen() {
   const distritoInvalid = attemptedSubmit && !distritoId;
   const direccionInvalid = (attemptedSubmit || direccion.length > 0) && !direccionOk;
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setAttemptedSubmit(true);
@@ -91,6 +119,41 @@ export function CorreosShippingScreen() {
     if (!provinciaId || !cantonId || !distritoId || !direccionOk) {
       setError("Completá provincia, cantón, distrito y dirección exacta.");
       return;
+    }
+
+    const idNumeroNorm = idNumero.replace(/\s/g, "").trim();
+    const setupToken = readSignupDocumentSetupToken();
+    if (setupToken) {
+      setSubmitBusy(true);
+      try {
+        const res = await fetch("/api/auth/register-document", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            setupToken,
+            idTipo,
+            idNumero: idNumeroNorm,
+          }),
+        });
+        const data = (await res.json().catch(() => ({}))) as {
+          error?: string;
+          code?: string;
+        };
+        if (res.status === 409 && data.code === "CEDULA_EXISTS") {
+          setCedulaConflictOpen(true);
+          return;
+        }
+        if (!res.ok) {
+          setError(data.error ?? "No se pudo validar la identificación. Reintentá.");
+          return;
+        }
+        clearSignupDocumentSetupToken();
+      } catch {
+        setError("Error de red al validar la identificación.");
+        return;
+      } finally {
+        setSubmitBusy(false);
+      }
     }
 
     const provLabel = PROVINCIAS_CR.find((p) => p.id === provinciaId)?.label ?? "";
@@ -114,7 +177,7 @@ export function CorreosShippingScreen() {
         CEDULA_STORAGE,
         JSON.stringify({
           tipo: idTipo,
-          numero: idNumero.replace(/\s/g, "").trim(),
+          numero: idNumeroNorm,
         }),
       );
     } catch {
@@ -143,7 +206,7 @@ export function CorreosShippingScreen() {
             href="/bienvenida"
             className="mt-10 inline-flex w-full items-center justify-center rounded-2xl bg-violet-electric py-3.5 text-sm font-semibold text-white shadow-[0_0_28px_-6px_rgba(138,43,226,0.55)] transition hover:brightness-110"
           >
-            Ir a bienvenida
+            Ir a Bienvenid@
           </Link>
           <button
             type="button"
@@ -159,6 +222,50 @@ export function CorreosShippingScreen() {
 
   return (
     <CyberTropicalShell>
+      {cedulaConflictOpen ? (
+        <div
+          className="fixed inset-0 z-[100] flex items-end justify-center bg-black/75 p-4 sm:items-center"
+          role="alertdialog"
+          aria-modal="true"
+          aria-labelledby="cedula-conflict-title"
+        >
+          <div className="w-full max-w-md rounded-2xl border border-white/[0.1] bg-[#141414] p-5 shadow-[0_0_48px_-12px_rgba(138,43,226,0.45)] ring-1 ring-violet-electric/20">
+            <h2
+              id="cedula-conflict-title"
+              className="text-base font-semibold leading-snug text-white"
+            >
+              Ya existe un usuario asociado a este número de cédula
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-zinc-400">
+              Probablemente ya tenés cuenta. Podés reestablecer la contraseña con el correo
+              registrado, o escribir a soporte si necesitás ayuda (por ejemplo, si creés que
+              hay un error con tu identificación).
+            </p>
+            <div className="mt-5 flex flex-col gap-2">
+              <Link
+                href="/recuperar"
+                onClick={() => setCedulaConflictOpen(false)}
+                className="flex w-full items-center justify-center rounded-xl bg-violet-electric py-3 text-sm font-semibold text-white transition hover:brightness-110"
+              >
+                Reestablecer la contraseña
+              </Link>
+              <a
+                href={supportMailHref}
+                className="flex w-full items-center justify-center rounded-xl border border-white/15 bg-[#1A1A1A] py-3 text-sm font-semibold text-zinc-200 transition hover:border-white/25"
+              >
+                Contactar con Soporte al Cliente
+              </a>
+              <button
+                type="button"
+                onClick={() => setCedulaConflictOpen(false)}
+                className="py-2 text-center text-xs font-medium text-zinc-500 transition hover:text-zinc-300"
+              >
+                Corregir número y reintentar
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
       <div className="flex flex-1 flex-col pb-4">
         <p className="text-center text-[10px] font-semibold uppercase tracking-[0.22em] text-violet-electric/90">
           Paso 2
@@ -329,9 +436,10 @@ export function CorreosShippingScreen() {
           <div className="flex flex-col gap-3 pt-2">
             <button
               type="submit"
-              className="w-full rounded-2xl bg-neon-green py-3.5 text-sm font-bold text-black shadow-[0_0_32px_-6px_rgba(51,255,0,0.5)] transition hover:brightness-110 active:scale-[0.99]"
+              disabled={submitBusy}
+              className="w-full rounded-2xl bg-neon-green py-3.5 text-sm font-bold text-black shadow-[0_0_32px_-6px_rgba(51,255,0,0.5)] transition hover:brightness-110 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Guardar y continuar
+              {submitBusy ? "Validando…" : "Guardar y continuar"}
             </button>
             <Link
               href="/registro"

@@ -19,6 +19,33 @@ export function getClientIp(request: Request): string {
   return request.headers.get("x-real-ip")?.trim() || "unknown";
 }
 
+/**
+ * Interpreta `APP_URL` desde env (Vercel/.env a veces incluyen comillas o omiten el esquema).
+ */
+export function tryParseAppUrl(raw: string | undefined): URL | null {
+  let s = String(raw ?? "").trim();
+  if (!s) return null;
+  for (let i = 0; i < 3; i++) {
+    if (
+      (s.startsWith('"') && s.endsWith('"')) ||
+      (s.startsWith("'") && s.endsWith("'"))
+    ) {
+      s = s.slice(1, -1).trim();
+    } else {
+      break;
+    }
+  }
+  if (!s) return null;
+  if (!/^https?:\/\//i.test(s)) {
+    s = `https://${s.replace(/^\/+/, "")}`;
+  }
+  try {
+    return new URL(s);
+  } catch {
+    return null;
+  }
+}
+
 export function requireTrustedOrigin(request: Request): Response | null {
   const method = request.method.toUpperCase();
   if (method === "GET" || method === "HEAD" || method === "OPTIONS") return null;
@@ -30,16 +57,16 @@ export function requireTrustedOrigin(request: Request): Response | null {
   }
 
   const allowedOrigins = new Set<string>();
-  const appUrl = process.env.APP_URL?.trim();
-  if (appUrl) {
-    try {
-      allowedOrigins.add(new URL(appUrl).origin);
-    } catch {
+  const appUrlRaw = process.env.APP_URL?.trim();
+  if (appUrlRaw) {
+    const parsed = tryParseAppUrl(process.env.APP_URL);
+    if (!parsed) {
       return NextResponse.json(
         { error: "APP_URL inválida en configuración." },
         { status: 500 },
       );
     }
+    allowedOrigins.add(parsed.origin);
   }
   if (host) {
     allowedOrigins.add(`https://${host}`);

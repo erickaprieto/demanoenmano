@@ -11,6 +11,7 @@ import {
   type MarketplaceTaxonomyPayload,
 } from "@/lib/marketplaceTaxonomyStatic";
 import { resolveCategoryLabel } from "@/lib/marketplaceTaxonomyResolve";
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import { formatPrecioCRC } from "@/lib/formatColones";
 import { Bell, BellRing, Search } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -199,7 +200,7 @@ export function BuscarClient() {
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Buscar en De Mano en Mano…"
+          placeholder="Buscar artículos…"
           className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-zinc-500"
           type="search"
           autoComplete="off"
@@ -303,13 +304,16 @@ export function BuscarClient() {
               Activar alerta para{" "}
               <span className="break-words">
                 &quot;
-                {trimmedQuery ||
-                  buildFallbackAlertTerm(
-                    categoryId,
-                    priceId,
-                    conditionId,
-                    taxonomySafe,
-                  )}
+                {trimmedQuery
+                  ? textWithBrandItalic(trimmedQuery)
+                  : textWithBrandItalic(
+                      buildFallbackAlertTerm(
+                        categoryId,
+                        priceId,
+                        conditionId,
+                        taxonomySafe,
+                      ),
+                    )}
                 &quot;
               </span>
             </button>

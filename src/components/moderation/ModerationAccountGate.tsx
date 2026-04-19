@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getOrCreateDemoUserId } from "@/lib/demoUserId";
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import {
   applyAccountReviewLockIfSelf,
   clearAccountReviewLock,
@@ -75,7 +76,7 @@ export function ModerationAccountGate() {
         id="account-review-title"
         className="max-w-sm text-lg font-semibold leading-snug text-white"
       >
-        {message}
+        {textWithBrandItalic(message)}
       </p>
       <p className="mt-4 max-w-xs text-sm text-zinc-500">
         Si creés que es un error, contactá a soporte desde otro dispositivo con

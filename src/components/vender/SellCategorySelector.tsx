@@ -1,12 +1,14 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { BrandName } from "@/components/branding/BrandName";
 import {
   SELL_CATEGORY_OPTIONS,
   SELL_CATEGORY_OTRO_ID,
 } from "@/data/sellCategories";
 
-const SELL_CATEGORY_MASCOTAS_ID = "mascotas";
+/** Categorías donde mostramos la política de no alimentos / no animales vivos. */
+const SELL_CATEGORY_PET_ACCESSORY_POLICY_IDS = new Set(["ropa_mascotas", "mascotas"]);
 
 type SellCategorySelectorProps = {
   idPrefix: string;
@@ -86,9 +88,9 @@ export function SellCategorySelector({
       ) : null}
 
       <AnimatePresence initial={false}>
-        {value === SELL_CATEGORY_MASCOTAS_ID ? (
+        {SELL_CATEGORY_PET_ACCESSORY_POLICY_IDS.has(value) ? (
           <motion.div
-            key="mascotas-policy"
+            key="pet-accessory-policy"
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
@@ -96,12 +98,14 @@ export function SellCategorySelector({
             className="mt-3 rounded-xl border border-violet-electric/25 bg-violet-electric/10 px-3 py-2.5 text-left text-[11px] leading-snug text-violet-100"
             role="note"
           >
-            <span className="font-semibold text-white">Política De Mano en Mano:</span> en
-            Mascotas solo publicamos{" "}
-            <span className="text-white">accesorios</span> (correas, camas,
-            juguetes, transportadoras, etc.).{" "}
+            <span className="font-semibold text-white">
+              Política <BrandName />:
+            </span>{" "}
+            En esta categoría solo publicamos{" "}
+            <span className="text-white">ropa y accesorios</span> para mascotas
+            (chalecos, correas, camas, juguetes, transportadoras, etc.).{" "}
             <span className="text-white">No aceptamos alimentos</span> ni
-            suplementos.
+            suplementos, ni venta de animales vivos.
           </motion.div>
         ) : null}
       </AnimatePresence>

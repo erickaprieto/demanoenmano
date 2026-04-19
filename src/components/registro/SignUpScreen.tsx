@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useId, useMemo, useState } from "react";
 import { isUserPasswordValid } from "@/lib/auth/passwordPolicy";
+import { saveSignupDocumentSetupToken } from "@/lib/signupDocumentSetupToken";
 import { CyberTropicalShell } from "./CyberTropicalShell";
 import { signUpFieldClass, signUpFieldInvalidClass } from "./signUpFieldStyles";
 
@@ -85,10 +86,16 @@ export function SignUpScreen() {
           password,
         }),
       });
-      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      const data = (await res.json().catch(() => ({}))) as {
+        error?: string;
+        documentSetupToken?: string;
+      };
       if (!res.ok) {
         setError(data.error ?? "No se pudo crear tu cuenta.");
         return;
+      }
+      if (typeof data.documentSetupToken === "string" && data.documentSetupToken.length > 0) {
+        saveSignupDocumentSetupToken(data.documentSetupToken);
       }
       router.push("/registro/correos");
       router.refresh();

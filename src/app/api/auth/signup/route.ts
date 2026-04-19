@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
-import { createPendingUserApproval, createUser, findUserByEmail } from "@/lib/auth/store";
-import { hashPassword } from "@/lib/auth/session";
+import { createUser, findUserByEmail, setUserApprovalStatus } from "@/lib/auth/store";
+import { createSessionToken, hashPassword } from "@/lib/auth/session";
 import { enforceRateLimit, getClientIp, rateLimitExceededResponse, requireTrustedOrigin, sanitizeText } from "@/lib/apiSecurity";
 import { validateUserPassword } from "@/lib/auth/passwordPolicy";
 
@@ -58,12 +58,25 @@ export async function POST(req: Request) {
     phone,
     passwordHash: hashPassword(password),
   });
-  await createPendingUserApproval(user.id);
+  await setUserApprovalStatus({
+    userId: user.id,
+    status: "approved",
+    reason: null,
+  });
+
+  const documentSetupExp = Math.floor(Date.now() / 1000) + 60 * 60 * 2;
+  const documentSetupToken = createSessionToken({
+    userId: user.id,
+    email: user.email,
+    fullName: user.fullName,
+    exp: documentSetupExp,
+  });
 
   return NextResponse.json({
     ok: true,
-    requiresApproval: true,
-    message: "Registro recibido. Tu cuenta debe ser aprobada por el administrador antes de iniciar sesión.",
+    requiresApproval: false,
+    message: "Cuenta creada. Podés iniciar sesión cuando quieras.",
     user: { id: user.id, email: user.email, fullName: user.fullName },
+    documentSetupToken,
   });
 }

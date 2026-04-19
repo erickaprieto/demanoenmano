@@ -80,6 +80,17 @@ const HINTS_BY_CATEGORY: Record<string, PhotoSlotDef[]> = {
     img("slot4", "Detalle tela", "Textura y color fiel."),
     img("slot5", "Estado general", "Desgaste global y conjunto."),
   ],
+  ropa_mascotas: [
+    img(
+      "slot1",
+      "Vista frontal",
+      "Prenda o accesorio sobre superficie neutra; indicá si es para perro, gato u otro.",
+    ),
+    img("slot2", "Vista trasera o cierres", "Hebillas, velcro, elasticidad o broches."),
+    img("slot3", "Etiqueta de talla", "Marca, medida (S/M/L) o peso del animal si aplica."),
+    img("slot4", "Textura y elasticidad", "Tejido, malla, cuero sintético, etc."),
+    img("slot5", "Estado y uso", "Pelos atrapados, desgaste o accesorios incluidos."),
+  ],
   deportes: [
     img("slot1", "Artículo desplegado", "Forma completa del producto."),
     img("slot2", "Marcas y tallas", "Etiquetas internas o externas."),

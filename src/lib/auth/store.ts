@@ -76,6 +76,57 @@ export async function ensureAuthTables(): Promise<void> {
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
   `;
+  await sql`
+    ALTER TABLE auth_users
+      ADD COLUMN IF NOT EXISTS id_document_type TEXT,
+      ADD COLUMN IF NOT EXISTS id_document_number TEXT
+  `;
+  await sql`
+    CREATE UNIQUE INDEX IF NOT EXISTS auth_users_identity_doc_uq
+    ON auth_users (lower(trim(id_document_type)), trim(id_document_number))
+    WHERE id_document_number IS NOT NULL AND trim(id_document_number) <> ''
+  `;
+}
+
+export function normalizeIdentityDocumentNumber(raw: string): string {
+  return raw.replace(/\s/g, "").trim();
+}
+
+/** Devuelve el user_id que ya tiene este documento, o null. */
+export async function findUserIdByIdentityDocument(
+  idTipo: string,
+  idNumeroNormalized: string,
+): Promise<string | null> {
+  const sql = await getSql();
+  if (!sql) return null;
+  await ensureAuthTables();
+  const tipo = idTipo.trim().toLowerCase();
+  const rows = (await sql`
+    SELECT id FROM auth_users
+    WHERE lower(trim(coalesce(id_document_type, ''))) = ${tipo}
+      AND trim(coalesce(id_document_number, '')) = ${idNumeroNormalized}
+    LIMIT 1
+  `) as unknown as Array<{ id: string }>;
+  return rows[0]?.id ?? null;
+}
+
+export async function assignUserIdentityDocument(input: {
+  userId: string;
+  idTipo: string;
+  idNumeroNormalized: string;
+}): Promise<void> {
+  const sql = await getSql();
+  if (!sql) {
+    throw new Error("DATABASE_URL no configurada");
+  }
+  await ensureAuthTables();
+  await sql`
+    UPDATE auth_users
+    SET
+      id_document_type = ${input.idTipo.trim()},
+      id_document_number = ${input.idNumeroNormalized}
+    WHERE id = ${input.userId}
+  `;
 }
 
 export async function findUserByEmail(email: string): Promise<AuthUser | null> {

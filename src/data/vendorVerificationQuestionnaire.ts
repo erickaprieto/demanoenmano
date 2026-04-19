@@ -20,14 +20,14 @@ export type VendorQuestion = {
 
 /** Grupos de categorías (ids en `sellCategories.ts`). */
 export const VENDOR_VERIFICATION_GROUPS = {
-  moda_bebes: ["moda", "bebes_ninos"],
+  moda_bebes: ["moda", "bebes_ninos", "ropa_mascotas"],
   calzado: ["calzado"],
   electronica_consolas: ["electronica", "consolas"],
   herramientas: ["herramientas"],
   hogar: ["hogar"],
   deportes: ["deportes"],
   belleza: ["belleza"],
-  hobbies_juguetes_mascotas: ["hobbies", "juguetes", "mascotas"],
+  hobbies_juguetes_mascotas: ["hobbies", "juguetes"],
   otro: ["otro"],
 } as const;
 

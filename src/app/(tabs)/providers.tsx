@@ -1,6 +1,7 @@
 "use client";
 
 import { ModerationAccountGate } from "@/components/moderation/ModerationAccountGate";
+import { UsageGuideGate } from "@/components/onboarding/UsageGuideGate";
 import { ChatProvider } from "@/context/ChatContext";
 import {
   getLegalProfile,
@@ -23,6 +24,7 @@ export function TabsProviders({ children }: { children: React.ReactNode }) {
   return (
     <ChatProvider>
       <ModerationAccountGate />
+      <UsageGuideGate />
       {children}
     </ChatProvider>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandName, textWithBrandItalic } from "@/components/branding/BrandName";
 import { useId, useMemo, useState } from "react";
 import Link from "next/link";
 import {
@@ -70,8 +71,8 @@ export function DeliveryProfileForm({ returnToCheckout }: DeliveryProfileFormPro
           <span className="font-medium text-white">
             No se comparten en el chat
           </span>{" "}
-          con el vendedor ni el comprador: cada quien ve solo la guía y el
-          estado del envío dentro de De Mano en Mano.
+          con el vendedor ni el comprador: cada quien ve solo la guía y el estado del envío
+          dentro de <BrandName />.
         </p>
       </div>
 
@@ -120,7 +121,9 @@ export function DeliveryProfileForm({ returnToCheckout }: DeliveryProfileFormPro
             required
           />
           <p className="mt-1 text-[10px] text-zinc-600">
-            No aparece en el chat. Solo operaciones logísticas en De Mano en Mano.
+            {textWithBrandItalic(
+              "No aparece en el chat. Solo operaciones logísticas en De Mano en Mano.",
+            )}
           </p>
         </div>
         <div>

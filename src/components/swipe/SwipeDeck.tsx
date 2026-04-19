@@ -208,8 +208,8 @@ export function SwipeDeck() {
       ) : null}
 
       <p className="mt-5 max-w-xs text-center text-xs text-zinc-500">
-        Desliza a la derecha para guardar en favoritos, a la izquierda para pasar.
-        Toca la tarjeta para ver las 5 fotos.
+        Desliza a la derecha para guardar en favoritos, a la izquierda para pasar. Toca la tarjeta
+        para ver los detalles del producto.
       </p>
 
       <ProductDetailOverlay product={detail} onClose={() => setDetail(null)} />

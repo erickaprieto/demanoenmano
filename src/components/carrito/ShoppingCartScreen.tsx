@@ -1,6 +1,7 @@
 "use client";
 
 import { AppLogo } from "@/components/branding/AppLogo";
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import { GradientBackdrop } from "@/components/ui/GradientBackdrop";
 import { formatColones } from "@/lib/formatColones";
 import { CircleCheck } from "lucide-react";
@@ -97,7 +98,7 @@ export function ShoppingCartScreen() {
         </div>
 
         <h1 className="mt-6 text-center text-2xl font-semibold tracking-tight text-white">
-          Tu carrito De Mano en Mano
+          {textWithBrandItalic("Tu carrito De Mano en Mano")}
         </h1>
         <p className="mt-1.5 text-center text-xs text-zinc-500">
           Cada vendedor envía por separado · {GUIAS} guías en este pedido

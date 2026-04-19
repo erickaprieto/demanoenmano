@@ -1,5 +1,6 @@
 "use client";
 
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import type { ChatMessage } from "@/context/ChatContext";
 import { submitUserReportWithChatPanic } from "@/lib/moderationChatSubmit";
 import {
@@ -216,7 +217,9 @@ export function ReportUserSheet({
                   className="mt-4 text-center text-sm font-medium leading-relaxed text-zinc-300"
                   role="status"
                 >
-                  Reporte enviado. Gracias por ayudar a mantener De Mano en Mano seguro.
+                  {textWithBrandItalic(
+                    "Reporte enviado. Gracias por ayudar a mantener De Mano en Mano seguro.",
+                  )}
                 </p>
               ) : (
                 <button

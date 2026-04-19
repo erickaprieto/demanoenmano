@@ -13,6 +13,7 @@ const RAW: { id: string; label: string }[] = [
   { id: "hogar", label: "Hogar y Decoración" },
   { id: "juguetes", label: "Juguetes" },
   { id: "moda", label: "Moda y Accesorios" },
+  { id: "ropa_mascotas", label: "Ropa y Accesorios para mascotas" },
   {
     id: SELL_CATEGORY_OTRO_ID,
     label: "Otro (Para artículos misceláneos)",

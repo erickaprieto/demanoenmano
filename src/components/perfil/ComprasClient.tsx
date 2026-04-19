@@ -1,5 +1,6 @@
 "use client";
 
+import { textWithBrandItalic } from "@/components/branding/BrandName";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { formatColones } from "@/lib/formatColones";
@@ -73,11 +74,9 @@ export function ComprasClient({ embedded = false }: ComprasClientProps) {
 
       {!embedded ? (
         <p className="mb-6 text-sm leading-relaxed text-zinc-500">
-          Tu pago queda retenido en De Mano en Mano hasta que el vendedor cargue la guía de
-          Correos en la app; ahí se libera al vendedor. Seguí el envío con esa guía.
-          Cuando recibas el paquete, podés valorar la compra en reseñas. Los datos de
-          contacto no se comparten entre partes: solo estados y rastreo oficial de
-          Correos.
+          {textWithBrandItalic(
+            "Tu pago queda retenido en De Mano en Mano hasta que el vendedor cargue la guía de Correos en la app; ahí se libera al vendedor. Seguí el envío con esa guía. Cuando recibas el paquete, podés valorar la compra en reseñas. Los datos de contacto no se comparten entre partes: solo estados y rastreo oficial de Correos.",
+          )}
         </p>
       ) : null}
       <ul className="space-y-4">
