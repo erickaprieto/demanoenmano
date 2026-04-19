@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+:root {
+  --background: #1a1a1a;
+  --foreground: #fafafa;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-obsidian: #1a1a1a;
+  --color-obsidian-elevated: #242424;
+  --color-violet-electric: #8a2be2;
+  --color-neon-green: #33ff00;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, #8a2be2 35%, transparent);
+    color: #fafafa;
+  }
+}
+
+/* Onboarding / bienvenida — animaciones sutiles (respetan reduced motion) */
+@keyframes vibe-onboarding-logo-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes vibe-onboarding-logo-halo {
+  0%,
+  100% {
+    box-shadow:
+      0 0 44px rgba(51, 255, 0, 0.2),
+      0 0 88px rgba(138, 43, 226, 0.16),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  }
+  50% {
+    box-shadow:
+      0 0 56px rgba(51, 255, 0, 0.32),
+      0 0 108px rgba(138, 43, 226, 0.22),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+}
+
+@keyframes vibe-onboarding-logo-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 22px rgba(51, 255, 0, 0.42))
+      drop-shadow(0 0 48px rgba(138, 43, 226, 0.12));
+  }
+  50% {
+    filter: drop-shadow(0 0 32px rgba(51, 255, 0, 0.58))
+      drop-shadow(0 0 56px rgba(138, 43, 226, 0.18));
+  }
+}
+
+@keyframes vibe-onboarding-carousel-icon {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(3px, -4px, 0);
+  }
+}
+
+@keyframes vibe-onboarding-carousel-text {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-2px, 3px, 0);
+  }
+}
+
+@layer components {
+  .vibe-onboarding-logo-ring {
+    box-shadow:
+      0 0 48px rgba(51, 255, 0, 0.22),
+      0 0 96px rgba(138, 43, 226, 0.18),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    animation: vibe-onboarding-logo-enter 0.85s cubic-bezier(0.22, 1, 0.36, 1) both,
+      vibe-onboarding-logo-halo 3s ease-in-out 0.85s infinite alternate;
+  }
+
+  .vibe-onboarding-logo-image {
+    filter: drop-shadow(0 0 28px rgba(51, 255, 0, 0.5));
+    animation: vibe-onboarding-logo-enter 0.85s cubic-bezier(0.22, 1, 0.36, 1) both,
+      vibe-onboarding-logo-glow 2.6s ease-in-out 0.85s infinite alternate;
+  }
+
+  .vibe-onboarding-carousel-icon {
+    animation: vibe-onboarding-carousel-icon 5.5s ease-in-out infinite;
+  }
+
+  .vibe-onboarding-carousel-text {
+    animation: vibe-onboarding-carousel-text 6.5s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vibe-onboarding-logo-ring,
+  .vibe-onboarding-logo-image,
+  .vibe-onboarding-carousel-icon,
+  .vibe-onboarding-carousel-text {
+    animation: none !important;
+  }
+
+  .vibe-onboarding-logo-ring {
+    box-shadow:
+      0 0 48px rgba(51, 255, 0, 0.22),
+      0 0 96px rgba(138, 43, 226, 0.18),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  }
+}
