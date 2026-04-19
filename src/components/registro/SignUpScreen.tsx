@@ -251,7 +251,7 @@ export function SignUpScreen() {
               disabled={loading}
               className="w-full rounded-2xl bg-neon-green py-4 text-center text-base font-bold tracking-tight text-black shadow-[0_0_36px_-6px_rgba(51,255,0,0.55)] transition hover:brightness-110 active:scale-[0.99]"
             >
-              {loading ? "Creando cuenta..." : "¡Empezar a Vibrar!"}
+              {loading ? "Creando cuenta..." : "¡Empezá a comprar y vender!"}
             </button>
 
             <p className="text-center text-sm text-zinc-500">

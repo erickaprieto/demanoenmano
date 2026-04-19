@@ -282,7 +282,7 @@ export function WelcomeOpportunityScreen() {
           href="/bienvenida/terminos"
           className="flex w-full items-center justify-center rounded-2xl bg-neon-green py-4 text-[15px] font-semibold text-[#0a0a0b] shadow-[0_0_36px_-4px_rgba(51,255,0,0.55),0_4px_24px_rgba(51,255,0,0.15)] transition hover:brightness-110 active:scale-[0.99]"
         >
-          ¡Empezar a Vibrar!
+          ¡Empezá a comprar y vender!
         </Link>
         <Link
           href="/login"
