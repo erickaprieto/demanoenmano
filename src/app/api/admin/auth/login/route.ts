@@ -1,6 +1,13 @@
 import { NextResponse } from "next/server";
 import { createAdminToken, requireAdminCredentials, adminCookieName } from "@/lib/admin/session";
-import { enforceRateLimit, getClientIp, rateLimitExceededResponse, requireTrustedOrigin, sanitizeText } from "@/lib/apiSecurity";
+import {
+  cookieSecureFromRequest,
+  enforceRateLimit,
+  getClientIp,
+  rateLimitExceededResponse,
+  requireTrustedOrigin,
+  sanitizeText,
+} from "@/lib/apiSecurity";
 
 export const runtime = "nodejs";
 
@@ -29,7 +36,7 @@ export async function POST(req: Request) {
     res.cookies.set(adminCookieName(), createAdminToken(email), {
       path: "/",
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: cookieSecureFromRequest(req),
       sameSite: "lax",
       maxAge: 60 * 60 * 8,
     });

@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 export function AdminLoginScreen() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -26,8 +24,8 @@ export function AdminLoginScreen() {
         setError(data.error ?? "No autorizado.");
         return;
       }
-      router.push("/admin");
-      router.refresh();
+      /* Navegación completa: el middleware debe ver la cookie recién fijada (evita bucle /admin ↔ /login). */
+      window.location.assign("/admin");
     } catch {
       setError("Error de red.");
     } finally {

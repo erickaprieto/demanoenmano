@@ -20,6 +20,21 @@ export function getClientIp(request: Request): string {
 }
 
 /**
+ * `Set-Cookie` con `Secure` en HTTP (p. ej. `next start` en localhost) no se guarda:
+ * el navegador ignora la cookie → middleware redirige a login y la URL “parpadea”.
+ * Usar `secure` solo cuando la petición sea HTTPS (Vercel envía `x-forwarded-proto`).
+ */
+export function cookieSecureFromRequest(request: Request): boolean {
+  try {
+    if (new URL(request.url).protocol === "https:") return true;
+  } catch {
+    /* ignore */
+  }
+  const xf = request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim();
+  return xf === "https";
+}
+
+/**
  * Interpreta `APP_URL` desde env (Vercel/.env a veces incluyen comillas o omiten el esquema).
  */
 function isNonProduction(): boolean {
