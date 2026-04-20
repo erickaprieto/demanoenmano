@@ -18,6 +18,7 @@ export function AdminLoginScreen() {
       const res = await fetch("/api/admin/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
       const data = (await res.json().catch(() => ({}))) as { error?: string };

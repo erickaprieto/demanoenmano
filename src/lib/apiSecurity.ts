@@ -22,6 +22,44 @@ export function getClientIp(request: Request): string {
 /**
  * Interpreta `APP_URL` desde env (Vercel/.env a veces incluyen comillas o omiten el esquema).
  */
+function isNonProduction(): boolean {
+  return process.env.NODE_ENV !== "production";
+}
+
+/** Solo desarrollo: host típico de `next dev` (cualquier puerto). */
+function isLocalDevHost(host: string): boolean {
+  if (!isNonProduction()) return false;
+  try {
+    const u = new URL(`http://${host}`);
+    const h = u.hostname;
+    return (
+      h === "localhost" ||
+      h === "127.0.0.1" ||
+      h === "[::1]" ||
+      h === "::1"
+    );
+  } catch {
+    return false;
+  }
+}
+
+/** Solo desarrollo: mismo máquina, cualquier puerto (Turbopack suele usar ≠ 3000). */
+function isLocalDevOrigin(origin: string): boolean {
+  if (!isNonProduction()) return false;
+  try {
+    const u = new URL(origin);
+    if (u.protocol !== "http:" && u.protocol !== "https:") return false;
+    return (
+      u.hostname === "localhost" ||
+      u.hostname === "127.0.0.1" ||
+      u.hostname === "[::1]" ||
+      u.hostname === "::1"
+    );
+  } catch {
+    return false;
+  }
+}
+
 export function tryParseAppUrl(raw: string | undefined): URL | null {
   let s = String(raw ?? "")
     .replace(/\uFEFF/g, "")
@@ -58,6 +96,10 @@ export function requireTrustedOrigin(request: Request): Response | null {
   const origin = request.headers.get("origin")?.trim();
   const host = request.headers.get("host")?.trim();
   if (!origin) {
+    /* next dev / algunos clientes omiten Origin en same-origin; si Host es local, ok. */
+    if (host && isLocalDevHost(host)) {
+      return null;
+    }
     return NextResponse.json({ error: "Origen inválido" }, { status: 403 });
   }
 
@@ -84,6 +126,9 @@ export function requireTrustedOrigin(request: Request): Response | null {
   allowedOrigins.add("http://127.0.0.1:3003");
 
   if (!allowedOrigins.has(origin)) {
+    if (isLocalDevOrigin(origin)) {
+      return null;
+    }
     return NextResponse.json({ error: "Origen no autorizado" }, { status: 403 });
   }
   return null;
